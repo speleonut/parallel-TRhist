@@ -111,8 +111,8 @@ mkdir read2
 # 120 bases gives patterns of length 1,2,3,4,5,6 and all factors of these, integer numbers of repeats
 
 # Split reads in 10 million reads per file (40 million lines) 
-cd $workDir/read1 && zcat $seqFile1 | split -a3 -l 40000000 &
-cd $workDir/read2 && zcat $seqFile2 | split -a3 -l 40000000
+cd $workDir/read1 && zcat $seqPath/$seqFile1 | split -a3 -l 40000000 &
+cd $workDir/read2 && zcat $seqPath/$seqFile2 | split -a3 -l 40000000
 wait
 
 cd $workDir/read1 && find x* | xargs -n1 -P4 gzip 
