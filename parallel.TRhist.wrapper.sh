@@ -2,7 +2,7 @@
 # Master script for TRhist parallel pipeline
 
 # Script constants
-scriptDir=/data/neurogenetics/git/PhoenixScripts/mark/
+scriptDir=/data/neurogenetics/git/PhoenixScripts/mark
 usage()
 {
 echo "# This is the master script that coordinates job submission for parallel analysis of fastq files using TRhist
@@ -101,5 +101,5 @@ wait
 splitCount=$(wc -l $workDir/$outPrefix.xlist.txt | sed 's/[^0-9]*//g')
 trimJob=`sbatch --array=0-${splitCount} --export=ALL --dependency=afterok:${splitJob} $scriptDir/trimmomatic.sh -p $outPrefix -o $workDir`
 trimJob=$(echo $trimJob | cut -d" " -f4)
-histJob=`sbatch --array=0-${splitCount} --export=ALL --dependency=afterok:${trimJob} $scriptDir/TRhist.parallel.paired.sh -p $outPrefix -o $workDir`
+histJob=`sbatch --array=0-${splitCount} --export=ALL --dependency=afterok:${trimJob} $scriptDir/TRhist.parallel.paired.fastq.sh -p $outPrefix -o $workDir`
 sbatch --export=ALL --dependency=afterok:${histJob} $scriptDir/collate.trhist.files.phoenix.sh -p $outPrefix -o $workDir
