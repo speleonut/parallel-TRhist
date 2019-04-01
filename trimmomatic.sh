@@ -68,7 +68,7 @@ if [ ! -d $workDir ]; then
 fi
 
 # Create the array of seqFiles
-seqFile=($(cat $workDir/$outPrefix.xlist.txt))
+readarray -t seqFile < $workDir/$outPrefix.xlist.txt
 
 # load modules
 module load Java/1.8.0_121
