@@ -98,7 +98,7 @@ echo "#!/bin/bash
 splitJob=`sbatch --wait --export=ALL $scriptDir/splitReadFiles.sh -p $outPrefix -s $seqPath -o $workDir`
 splitJob=$(echo ${splitJob} | cut -d" " -f4)
 wait
-splitCount=$(wc -l $workDir/$outPrefix.xlist.txt | sed 's/[^0-9]*//g')
+splitCount=$(wc -l $workDir/$outPrefix.xlist.txt | cut -f1)
 trimJob=`sbatch --array=0-${splitCount} --export=ALL --dependency=afterok:${splitJob} $scriptDir/trimmomatic.sh -p $outPrefix -o $workDir`
 trimJob=$(echo $trimJob | cut -d" " -f4)
 histJob=`sbatch --array=0-${splitCount} --export=ALL --dependency=afterok:${trimJob} $scriptDir/TRhist.parallel.paired.fastq.sh -p $outPrefix -o $workDir`
