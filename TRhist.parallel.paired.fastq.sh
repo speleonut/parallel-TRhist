@@ -85,7 +85,7 @@ java -Xmx8g -jar /data/neurogenetics/executables/TRhist/TRhist.jar \
 $workDir/$outPrefix.${seqFile[SLURM_ARRAY_TASKID]}\_1P.fq.gz $workDir/$outPrefix.${seqFile[SLURM_ARRAY_TASKID]}\_2P.fq.gz
 
 gzip $outPrefix.${seqFile[SLURM_ARRAY_TASKID]}.paired.fa
-cut -f 2, -d "," $outPrefix.${seqFile[SLURM_ARRAY_TASKID]}.histogram.list > $outPrefix.${seqFile[SLURM_ARRAY_TASKID]}.justNumbers.list
+cut -f2 -d"," $outPrefix.${seqFile[SLURM_ARRAY_TASKID]}.histogram.list > $outPrefix.${seqFile[SLURM_ARRAY_TASKID]}.justNumbers.list
 
 echo "rm $outPrefix.${seqFile[SLURM_ARRAY_TASKID]}.histogram.list
 " >> $workDir/$outPrefix.TRhist.parallel.CleanUp.sh
