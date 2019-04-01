@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#SBATCH -J IlikeRepetitiveKmers
-#SBATCH -o /fast/users/%u/launch/trhist.slurm-%j.out
+#SBATCH -J tableTRhist
+#SBATCH -o /fast/users/%u/launch/collateTRhist.slurm-%j.out
 
 #SBATCH -A robinson
 #SBATCH -p batch
