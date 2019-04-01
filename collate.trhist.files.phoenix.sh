@@ -76,7 +76,7 @@ module load Python/3.7.0-foss-2016b
 cd $workDir
 find *.justNumbers.list > $outPrefix.listOfhists.txt
 $scriptDir/collate.trhist.files.phoenix.py -s $outPrefix.listOfhists.txt
-gzip $outPrefix.combined.histogram.list.txt
+gzip $outPrefix.combined.histogram.matrix.txt
 
 echo "cat $outPrefix.listOfhists.txt | xargs -n1 rm
 rm $outPrefix.listOfhists.txt
