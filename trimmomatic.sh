@@ -80,11 +80,11 @@ cd $workDir
 # Make sure all reads are the same length or TRhist gets up tight about it. 
 # 90 bases gives patterns of length 1,2,3,5,6 and all factors of these, integer numbers of repeats
 java -Xmx16g -jar $EBROOTTRIMMOMATIC/trimmomatic-0.36.jar PE -threads 4 \
-$workDir/read1/${seqFile[SLURM_ARRAY_TASKID]} $workDir/read2/${seqFile[SLURM_ARRAY_TASKID]} \
--baseout $workDir/$outPrefix.${seqFile[SLURM_ARRAY_TASKID]}.fq.gz \
+$workDir/read1/${seqFile[$SLURM_ARRAY_TASKID]} $workDir/read2/${seqFile[$SLURM_ARRAY_TASKID]} \
+-baseout $workDir/$outPrefix.${seqFile[$SLURM_ARRAY_TASKID]}.fq.gz \
 LEADING:2 CROP:90 MINLEN:90
 
 # We can't use the unpaired reads for TRhist so just throw them out along with the split files
-echo "rm $workDir/$outPrefix.${seqFile[SLURM_ARRAY_TASKID]}\_[1,2]U.fq.gz
+echo "rm $workDir/$outPrefix.${seqFile[$SLURM_ARRAY_TASKID]}\_[1,2]U.fq.gz
 rm -r $workDir/read1 $workDir/read2
 " >> $workDir/$outPrefix.TRhist.parallel.CleanUp.sh
