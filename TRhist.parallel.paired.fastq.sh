@@ -80,12 +80,12 @@ cd $workDir
 
 java -Xmx8g -jar /data/neurogenetics/executables/TRhist/TRhist.jar \
 -z -p \
--output $outPrefix.${seqFile[$SLURM_ARRAY_TASKID]}.histogram.list \
--output_fasta $outPrefix.${seqFile[$SLURM_ARRAY_TASKID]}.paired.fa \
-$workDir/$outPrefix.${seqFile[$SLURM_ARRAY_TASKID]}\_1P.fq.gz $workDir/$outPrefix.${seqFile[$SLURM_ARRAY_TASKID]}\_2P.fq.gz
+-output $outPrefix.${seqFile[$SLURM_ARRAY_TASK_ID]}.histogram.list \
+-output_fasta $outPrefix.${seqFile[$SLURM_ARRAY_TASK_ID]}.paired.fa \
+$workDir/$outPrefix.${seqFile[$SLURM_ARRAY_TASK_ID]}\_1P.fq.gz $workDir/$outPrefix.${seqFile[$SLURM_ARRAY_TASK_ID]}\_2P.fq.gz
 
-gzip $outPrefix.${seqFile[$SLURM_ARRAY_TASKID]}.paired.fa
-cut -f2 -d"," $outPrefix.${seqFile[$SLURM_ARRAY_TASKID]}.histogram.list > $outPrefix.${seqFile[$SLURM_ARRAY_TASKID]}.justNumbers.list
+gzip $outPrefix.${seqFile[$SLURM_ARRAY_TASK_ID]}.paired.fa
+cut -f2 -d"," $outPrefix.${seqFile[$SLURM_ARRAY_TASK_ID]}.histogram.list > $outPrefix.${seqFile[$SLURM_ARRAY_TASK_ID]}.justNumbers.list
 
-echo "rm $outPrefix.${seqFile[$SLURM_ARRAY_TASKID]}.histogram.list
+echo "rm $outPrefix.${seqFile[$SLURM_ARRAY_TASK_ID]}.histogram.list
 " >> $workDir/$outPrefix.TRhist.parallel.CleanUp.sh
