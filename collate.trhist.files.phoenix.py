@@ -26,12 +26,13 @@ def usage():
 sampleFile = ''
 
 # Read command line arguments
-opts, args = getopt.getopt(sys.argv[1:],'hs:',['help'])
+try:
+    opts, args = getopt.getopt(sys.argv[1:],'hs:',['help'])
 except getopt.GetoptError:
     usage
     sys.exit(2)
 for opt, arg in opts:
-    if opt in = ("-h", "--help"):
+    if opt in ("-h", "--help"):
         usage
         sys.exit()
     elif opt in ("-s"):
@@ -40,8 +41,8 @@ for opt, arg in opts:
 # Make sure you have what you need
 if sampleFile == '':
     usage
-	print('Hey, you forgot to tell me which files to combine')
-	sys.exit(2)	
+    print('Hey, you forgot to tell me which files to combine')
+    sys.exit(2)	
 
 # Make a dummy dataframe to start with with the known repeat sequence "A"
 # If your TRhist files didn't have that index then there is something seriously odd with the genome you sequenced!
