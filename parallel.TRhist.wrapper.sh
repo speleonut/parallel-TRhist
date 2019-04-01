@@ -102,4 +102,5 @@ splitCount=$(head -n-1 $workDir/$outPrefix.xlist.txt | wc -l)
 trimJob=`sbatch --array=0-${splitCount} --export=ALL --dependency=afterok:${splitJob} $scriptDir/trimmomatic.sh -p $outPrefix -o $workDir`
 trimJob=$(echo $trimJob | cut -d" " -f4)
 histJob=`sbatch --array=0-${splitCount} --export=ALL --dependency=afterok:${trimJob} $scriptDir/TRhist.parallel.paired.fastq.sh -p $outPrefix -o $workDir`
+histJob=$(echo $histJob | cut -d" " -f4)
 sbatch --export=ALL --dependency=afterok:${histJob} $scriptDir/collate.trhist.files.phoenix.sh -p $outPrefix -o $workDir
