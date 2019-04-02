@@ -77,9 +77,10 @@ cd $workDir
 find *.justNumbers.list > $outPrefix.listOfhists.txt
 $scriptDir/collate.trhist.files.phoenix.py -s $outPrefix.listOfhists.txt
 gzip $outPrefix.combined.histogram.matrix.txt
+cat *.paired.fa.gz > $outPrefix.paired.all.fa.gz
 
 echo "cat $outPrefix.listOfhists.txt | xargs -n1 rm
 rm $outPrefix.listOfhists.txt
-" >> $workDir/$outPrefix.TRhist.parallel.CleanUp.sh
+rm *.paired.fa.gz" >> $workDir/$outPrefix.TRhist.parallel.CleanUp.sh
 
 chmod +x $workDir/$outPrefix.TRhist.parallel.CleanUp.sh
