@@ -85,6 +85,4 @@ $workDir/read1/${seqFile[$SLURM_ARRAY_TASKID]} $workDir/read2/${seqFile[$SLURM_A
 LEADING:2 CROP:90 MINLEN:90
 
 # We can't use the unpaired reads for TRhist so just throw them out along with the split files
-echo "rm $workDir/$outPrefix.${seqFile[$SLURM_ARRAY_TASK_ID]}\_[1,2]U.fq.gz
-rm -r $workDir/read1 $workDir/read2
-" >> $workDir/$outPrefix.TRhist.parallel.CleanUp.sh
+echo "rm $workDir/$outPrefix.${seqFile[$SLURM_ARRAY_TASK_ID]}\_[1,2]U.fq.gz" >> $workDir/$outPrefix.TRhist.parallel.CleanUp.sh
