@@ -119,3 +119,5 @@ cd $workDir/read1 && find x* | xargs -n1 -P4 gzip
 cd $workDir/read2 && find x* | xargs -n1 -P4 gzip 
 find x* > $workDir/$outPrefix.xlist.txt
 
+
+echo "rm -r $workDir/read1 $workDir/read2" >> $workDir/$outPrefix.TRhist.parallel.CleanUp.sh
