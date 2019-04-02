@@ -115,8 +115,7 @@ cd $workDir/read1 && zcat $seqPath/$seqFile1 | split -a3 -l 40000000 &
 cd $workDir/read2 && zcat $seqPath/$seqFile2 | split -a3 -l 40000000
 wait
 
-cd $workDir/read1 && find x* | xargs -n1 -P4 gzip 
-cd $workDir/read2 && find x* | xargs -n1 -P4 gzip 
+cd $workDir/read2
 find x* > $workDir/$outPrefix.xlist.txt
 
 echo "rm -r $workDir/read1 $workDir/read2" >> $workDir/$outPrefix.TRhist.parallel.CleanUp.sh
