@@ -11,5 +11,6 @@ Each chunk is trimmed in parallel to 90 base pairs with trimmomatic https://www.
 Each trimmed read pair is run through TRhist independently and in parallel https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3957077/
 The results of TRhist are compiled with a customised python script.
 Approximate run time on our HPC is 6 hours (the same protocol without splitting takes > 72 hours).
+
 **Notes:**
 These scripts are written for the specific architecture of our HPC.  They will not work unless you fix up file paths and adapt for your scheduler.
