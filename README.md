@@ -2,7 +2,7 @@
 Slurm scripts for running TRhist in parallel and then collating the data into one matrix
 
 **Usage**
-screen parallel.TRhist.wroapper.sh -p file_prefix -s /path/to/sequences -o /path/to/output | [ - h | --help ]
+screen parallel.TRhist.wrapper.sh -p file_prefix -s /path/to/sequences -o /path/to/output | [ - h | --help ]
 
 **Workflow description**
 The wrapper script sets off a chain of jobs working on paired fastq files to get a single matrix of all possible read repeat counts.
