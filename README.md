@@ -4,6 +4,8 @@ Slurm scripts for running TRhist in parallel and then collating the data into on
 **Usage**
 screen parallel.TRhist.wrapper.sh -p file_prefix -s /path/to/sequences -o /path/to/output | [ - h | --help ]
 
+\# Use ctrl+a d to detach from the screen session (the session will quit once the read splitting is done)
+
 **Workflow description**
 The wrapper script sets off a chain of jobs working on paired fastq files to get a single matrix of all possible read repeat counts.
 The fastq are split into sub files of 10 million reads per chunk.
