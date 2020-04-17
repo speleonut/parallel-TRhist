@@ -2,7 +2,7 @@
 # Master script for TRhist parallel pipeline
 
 # Script constants
-scriptDir=/data/neurogenetics/git/PhoenixScripts/mark/
+scriptDir=/data/neurogenetics/git/PhoenixScripts/mark/parallel-TRhist
 usage()
 {
 echo "# This is the edited master script that coordinates job submission for parallel analysis of fastq files using TRhist
