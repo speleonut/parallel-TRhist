@@ -65,7 +65,7 @@ if [ -z "$workDir" ]; then # If no output directory then use default directory
 fi
 
 # Make sure $workDir exists
-if [ ! -d $workDir ]; then
+if [ ! -d "$workDir" ]; then
     mkdir -p $workDir
 fi
 

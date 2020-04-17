@@ -52,10 +52,10 @@ if [ -z "$workDir" ]; then # If no output directory then use default directory
 fi
 
 # Make sure $workDir exists
-if [ ! -d $workDir ]; then
+if [ ! -d "$workDir" ]; then
     usage
     echo "# ERROR: This is not the directory you're looking for.  This script is only if you get premature termination of your parallel TRhist pipeline.
-	$workDir was not found.  Does it exist?
+	$workDir was not found but it should have been.  Does it exist?
 	You can go about your business"
 	exit 1
 fi

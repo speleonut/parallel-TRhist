@@ -61,7 +61,7 @@ if [ -z "$workDir" ]; then # If no output directory then use default directory
 fi
 
 # Make sure $workDir exists
-if [ ! -d $workDir ]; then
+if [ ! -d "$workDir" ]; then
     mkdir -p $workDir
 fi
 
@@ -70,7 +70,7 @@ fi
 # ...and assumes only your seq files are in the folder matching the file prefix
 cd $seqPath
 seqFile1=$(ls *.fastq.gz | grep $outPrefix\_ | head -n 1) # Assume sequence files are some form of $outPrefix_fastq.gz
-if [ -f $seqFile1 ]; then
+if [ -f "$seqFile1" ]; then
 	fileCount=$(ls *.fastq.gz | grep $outPrefix\_ | wc -l | sed 's/[^0-9]*//g')
 	if [ $fileCount -ne "2" ]; then
 		echo "Sorry I've found the wrong number of sequence files and there's a risk I will map the wrong ones!"
@@ -86,7 +86,7 @@ else
 	seqFile1=$(ls *.fastq.gz | grep -w $outPrefix | head -n 1) 
 	seqFile2=$(ls *.fastq.gz | grep -w $outPrefix | tail -n 1)
 fi
-if [ ! -f $seqFile1 ]; then # Proceed to epic failure if can't locate unique seq file names
+if [ ! -f "$seqFile1" ]; then # Proceed to epic failure if can't locate unique seq file names
 	echo "Sorry I can't find your sequence files! I'm using $outPrefix as part of the filename to locate them"
 	exit 1
 fi
