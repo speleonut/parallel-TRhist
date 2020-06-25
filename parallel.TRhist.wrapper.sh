@@ -72,14 +72,14 @@ cd $seqPath
 seqFile1=$(ls *.fastq.gz | grep $outPrefix\_ | head -n 1) # Assume sequence files are some form of $outPrefix_fastq.gz
 if [ -f "$seqFile1" ]; then
 	fileCount=$(ls *.fastq.gz | grep $outPrefix\_ | wc -l | sed 's/[^0-9]*//g')
-	if [ $fileCount -ne "2" ]; then
+	if [ "$fileCount" -ne "2" ]; then
 		echo "Sorry I've found the wrong number of sequence files and there's a risk I will map the wrong ones!"
 		exit 1
 	fi
 	seqFile2=$(ls *.fastq.gz | grep $outPrefix\_ | tail -n 1)
 else
 	fileCount=$(ls *.fastq.gz | grep -w $outPrefix | wc -l | sed 's/[^0-9]*//g') # Otherwise try other seq file name options
-	if [ $fileCount -ne "2" ]; then
+	if [ "$fileCount" -ne "2" ]; then
 		echo "Sorry I've found the wrong number of sequence files and there's a risk I will map the wrong ones!"
 		exit 1
 	fi
