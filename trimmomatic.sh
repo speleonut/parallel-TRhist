@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH -J TrimTheFat
-#SBATCH -o /fast/users/%u/launch/trimmomatic.slurm-%j.out
+#SBATCH -o /fast/users/%u/log/trimmomatic.slurm-%j.out
 
 #SBATCH -A robinson
 #SBATCH -p batch

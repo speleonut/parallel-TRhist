@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH -J tableTRhist
-#SBATCH -o /fast/users/%u/launch/collateTRhist.slurm-%j.out
+#SBATCH -o /fast/users/%u/log/collateTRhist.slurm-%j.out
 
 #SBATCH -A robinson
 #SBATCH -p batch

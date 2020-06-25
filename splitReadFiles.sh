@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH -J splitsville
-#SBATCH -o /fast/users/%u/launch/splitsville.slurm-%j.out
+#SBATCH -o /fast/users/%u/log/splitsville.slurm-%j.out
 
 #SBATCH -A robinson
 #SBATCH -p batch
