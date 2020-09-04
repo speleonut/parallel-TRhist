@@ -2,6 +2,7 @@
 
 # Script to split multisample ANNOVAR file
 import pandas as pd
+from scipy import stats
 import sys, getopt, csv, os
 
 def usage():
@@ -67,3 +68,17 @@ df.to_csv("multisampleTRhistMatrix.txt", sep='\t')
 
 # Make a short summary version for faster looking at likley candidates
 df.filter(regex = '^\\w{0,7}$', axis = 0).to_csv("upto7mers.multisampleTRhistMatrix.txt", sep='\t')
+
+# Calulate Z-scores
+dfZ = stats.zscore(df, axis=0)
+
+# Calculate ranking matrix
+dfMean = pd.df.mean(axis=1)
+dfMedian = pd.df.median(axis=1)
+dfSD = pd.df.std(axis=1)
+dfMax = pd.df.max(axis=1)
+dfZMax = pd.dfZ.max(axis=1)
+dfZCount = dfZ[dfZ > 1].count()
+dfZ = pd.concat([dfMean, dfMedian, dfSD, dfMax, dfZMax, dfZCount], axis=1, join='outer', sort=True)
+dfZ.to_csv("Zscores.mulltisampleTRhistMatrix.txt", sep='\t')
+dfZ[dfZ['dfMedian']==0 & dfZ['dfZCount'] < 3 & dfZ['dfMax'] > 14 ].to_csv("outlierSamplesTRhistMatrix.txt", sep='\t')

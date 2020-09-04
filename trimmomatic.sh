@@ -25,7 +25,7 @@ echo "# Script for trimming Illumina reads
 #
 # Options
 # -p	REQUIRED. A prefix to your sequence files of the form PREFIX_R1.fastq.gz 
-# -o	OPTIONAL. Path to where you want to find your file output (if not specified $FASTDIR/TRhist/prefix is used)
+# -o	OPTIONAL. Path to where you want to find your file output (if not specified /hpcfs/users/${USER}/TRhist/prefix is used)
 # -h or --help	Prints this message.  Or if you got one of the options above wrong you'll be reading this too!
 # 
 # 
@@ -58,8 +58,8 @@ if [ -z "$outPrefix" ]; then # If no file prefix specified then do not proceed
 	exit 1
 fi
 if [ -z "$workDir" ]; then # If no output directory then use default directory
-	workDir=$FASTDIR/TRhist/$outPrefix
-	echo "Using $FASTDIR/TRhist/$outPrefix as the output directory"
+	workDir=/hpcfs/users/${USER}/TRhist/$outPrefix
+	echo "Using /hpcfs/users/${USER}/TRhist/$outPrefix as the output directory"
 fi
 
 # Make sure $workDir exists
