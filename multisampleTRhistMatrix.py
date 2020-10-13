@@ -2,6 +2,7 @@
 
 # Script to split multisample ANNOVAR file
 import pandas as pd
+import numpy as np
 from scipy import stats
 import sys, getopt, csv, os
 
@@ -70,15 +71,21 @@ df.to_csv("multisampleTRhistMatrix.txt", sep='\t')
 df.filter(regex = '^\\w{0,7}$', axis = 0).to_csv("upto7mers.multisampleTRhistMatrix.txt", sep='\t')
 
 # Calulate Z-scores
-dfZ = stats.zscore(df, axis=0)
+dfZ = df.apply(stats.zscore, axis=1, result_type='expand') # This kills the dataframe structure
+dfZ = pd.DataFrame(data = dfZ.values, index = df.index, columns = df.columns) # This gets it back
 
 # Calculate ranking matrix
-dfMean = pd.df.mean(axis=1)
-dfMedian = pd.df.median(axis=1)
-dfSD = pd.df.std(axis=1)
-dfMax = pd.df.max(axis=1)
-dfZMax = pd.dfZ.max(axis=1)
-dfZCount = dfZ[dfZ > 1].count()
-dfZ = pd.concat([dfMean, dfMedian, dfSD, dfMax, dfZMax, dfZCount], axis=1, join='outer', sort=True)
+dfMean = df.mean(axis=1)
+dfMedian = df.median(axis=1)
+dfSD = df.std(axis=1)
+dfMax = df.max(axis=1)
+dfZMax = dfZ.max(axis=1)
+dfZCount = dfZ[dfZ > 1].count(axis=1)
+dfZ = pd.concat([dfMean, dfMedian, dfSD, dfMax, dfZMax, dfZCount, dfZ], axis=1, join='outer', sort=True)
+dfZ = dfZ.rename(columns={0: "Mean", 1: "Median", 2: "SD", 3: "Max", 4: "ZMax", 5: "ZCount"})
 dfZ.to_csv("Zscores.mulltisampleTRhistMatrix.txt", sep='\t')
-dfZ[dfZ['dfMedian']==0 & dfZ['dfZCount'] < 3 & dfZ['dfMax'] > 14 ].to_csv("outlierSamplesTRhistMatrix.txt", sep='\t')
+dfZccFilt = dfZ[dfZ['Median'] == 0 ]
+dfZccFilt = dfZccFilt[dfZccFilt['ZCount'] > 0 ]
+dfZccFilt = dfZccFilt[dfZccFilt['ZCount'] < 3 ]
+dfZccFilt = dfZccFilt[dfZccFilt['Max'] > 14 ].sort_values(['Max'], ascending = False) # This is an arbitrary cut off
+dfZccFilt.to_csv("outlierSamplesTRhistMatrix.txt", sep='\t')
