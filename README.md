@@ -2,7 +2,8 @@
 Slurm scripts for running TRhist in parallel and then collating the data into one matrix
 
 **Usage**
-screen parallel.TRhist.wrapper.sh -p file_prefix -s /path/to/sequences -o /path/to/output | [ - h | --help ]
+
+`screen parallel.TRhist.wrapper.sh -p file_prefix -s /path/to/sequences -o /path/to/output | [ - h | --help ]`
 
 \# Use ctrl+a d to detach from the screen session (the session will quit once the read splitting is done)
 
@@ -14,8 +15,11 @@ Each trimmed read pair is run through TRhist independently and in parallel https
 
 When you have completed several genomes you can collate data from multiple runs to look for significant outliers as determined by z-score by running the multisampleTRhistMatrix.py script from the top level directory containing all of your sample directories.
 e.g.
+
+```
 cd /path/to/output
 python3 multisampleTRhistMatrix.py
+```
 
 **Notes:**
 These scripts are written for the specific architecture of our HPC.  They will not work unless you fix up file paths and adapt for your scheduler.
