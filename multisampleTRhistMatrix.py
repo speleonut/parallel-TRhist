@@ -86,6 +86,6 @@ dfZ = dfZ.rename(columns={0: "Mean", 1: "Median", 2: "SD", 3: "Max", 4: "ZMax", 
 dfZ.to_csv("Zscores.mulltisampleTRhistMatrix.txt", sep='\t')
 dfZccFilt = dfZ[dfZ['Median'] == 0 ]
 dfZccFilt = dfZccFilt[dfZccFilt['ZCount'] > 0 ]
-dfZccFilt = dfZccFilt[dfZccFilt['ZCount'] < 3 ]
-dfZccFilt = dfZccFilt[dfZccFilt['Max'] > 14 ].sort_values(['Max'], ascending = False) # This is an arbitrary cut off
+dfZccFilt = dfZccFilt[dfZccFilt['ZCount'] < 5 ]
+dfZccFilt = dfZccFilt[dfZccFilt['Max'] > 19 ].sort_values(['Max'], ascending = False) # This is an arbitrary cut off to approximately half of a 40x genome
 dfZccFilt.to_csv("outlierSamplesTRhistMatrix.txt", sep='\t')
