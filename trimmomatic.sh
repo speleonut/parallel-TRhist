@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH -J TrimTheFat
-#SBATCH -o /fast/users/%u/log/trimmomatic.slurm-%j.out
+#SBATCH -o /hpcfs/users/%u/log/trimmomatic.slurm-%j.out
 
 #SBATCH -A robinson
 #SBATCH -p batch
@@ -59,7 +59,7 @@ if [ -z "$outPrefix" ]; then # If no file prefix specified then do not proceed
 fi
 if [ -z "$workDir" ]; then # If no output directory then use default directory
 	workDir=/hpcfs/users/${USER}/TRhist/$outPrefix
-	echo "Using /hpcfs/users/${USER}/TRhist/$outPrefix as the output directory"
+	echo "#INFO: Using $workDir as the output directory"
 fi
 
 # Make sure $workDir exists
@@ -71,6 +71,7 @@ fi
 readarray -t seqFile < $workDir/$outPrefix.xlist.txt
 
 # load modules
+module load arch/haswell
 module load Java/1.8.0_121
 module load Trimmomatic/0.36-Java-1.8.0_121
 
