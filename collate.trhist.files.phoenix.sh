@@ -70,6 +70,7 @@ if [ ! -d "$workDir" ]; then
 fi
 
 # load modules
+module load arch/haswell
 module load Python/3.7.0-foss-2016b
 
 ## Start of the script ##

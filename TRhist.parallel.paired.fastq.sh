@@ -71,6 +71,7 @@ fi
 readarray -t seqFile < $workDir/$outPrefix.xlist.txt
 
 # load modules
+module load arch/haswell
 module load Java/1.8.0_121
 
 ## Start of the script ##
