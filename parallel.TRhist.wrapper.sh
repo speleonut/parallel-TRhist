@@ -3,6 +3,8 @@
 
 # Script constants
 scriptDir=/hpcfs/groups/phoenix-hpc-neurogenetics/scripts/git/mark/parallel-TRhist
+DelFq=true
+
 usage()
 {
 echo "# This is the master script that coordinates job submission for parallel analysis of fastq files using TRhist
@@ -13,14 +15,16 @@ echo "# This is the master script that coordinates job submission for parallel a
 # Usage screen $0 -p file_prefix -s /path/to/sequences -o /path/to/output | [ - h | --help ]
 #
 # Options
-# -p	REQUIRED. A prefix to your sequence files of the form PREFIX_R1.fastq.gz 
-# -s 	REQUIRED. Path to find your fastq files /path/to/sequences
-# -o	OPTIONAL. Path to where you want to find your file output (if not specified /hpcfs/users/${USER}/TRhist/prefix is used)
+# -p        REQUIRED. A prefix to your sequence files of the form PREFIX_R1.fastq.gz 
+# -s        REQUIRED. Path to find your fastq files /path/to/sequences
+# -o        OPTIONAL. Path to where you want to find your file output (if not specified /hpcfs/users/${USER}/TRhist/prefix is used)
+# --keep    OPTIONAL. Set this if you want to keep the paired trimmed fastq files.  The default is to add them to the clean up script.
 # -h or --help	Prints this message.  Or if you got one of the options above wrong you'll be reading this too!
 # 
 # 
 # Original: Mark Corbett, 19/01/2018
 # Modified: (Date; Name; Description)
+# 11/01/2023; Mark; Add the --keep option to add all paired fq.gz files to the clean up script. NOTE: this changes the default behaviour.
 #
 "
 }
@@ -28,14 +32,17 @@ echo "# This is the master script that coordinates job submission for parallel a
 ## Set Variables ##
 while [ "$1" != "" ]; do
 	case $1 in
-		-p )			shift
+		-p )		shift
 					outPrefix=$1
 					;;
-		-s )			shift
+		-s )		shift
 					seqPath=$1
 					;;
-		-o )			shift
+		-o )		shift
 					workDir=$1
+					;;
+		--keep )	shift
+					DelFq=false
 					;;
 		-h | --help )		usage
 					exit 0
@@ -58,6 +65,10 @@ fi
 if [ -z "$workDir" ]; then # If no output directory then use default directory
 	workDir=/hpcfs/users/${USER}/TRhist/$outPrefix
 	echo "#INFO: Using $workDir as the output directory"
+fi
+if "$DelFq"; then
+    keepOption="--keep"
+    echo "#INFO: All trimmed fq.gz files will be added to the clean up script."
 fi
 
 # Locate sequence file names.
@@ -103,7 +114,7 @@ splitJob=`sbatch --wait --export=ALL $scriptDir/splitReadFiles.sh -p $outPrefix 
 splitJob=$(echo ${splitJob} | cut -d" " -f4)
 wait
 splitCount=$(head -n-1 $workDir/$outPrefix.xlist.txt | wc -l)
-trimJob=`sbatch --array=0-${splitCount} --export=ALL --dependency=afterok:${splitJob} $scriptDir/trimmomatic.sh -p $outPrefix -o $workDir`
+trimJob=`sbatch --array=0-${splitCount} --export=ALL --dependency=afterok:${splitJob} $scriptDir/trimmomatic.sh -p $outPrefix -o $workDir $keepOption`
 trimJob=$(echo $trimJob | cut -d" " -f4)
 histJob=`sbatch --array=0-${splitCount} --export=ALL --dependency=afterok:${trimJob} $scriptDir/TRhist.parallel.paired.fastq.sh -p $outPrefix -o $workDir`
 histJob=$(echo $histJob | cut -d" " -f4)

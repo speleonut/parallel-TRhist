@@ -15,6 +15,8 @@
 #SBATCH --mail-type=FAIL                                        
 #SBATCH --mail-user=%u@adelaide.edu.au
 
+DelFq=true # Adds all files to the clean up script for later removal
+
 usage()
 {
 echo "# Script for trimming Illumina reads
@@ -24,13 +26,15 @@ echo "# Script for trimming Illumina reads
 # Usage sbatch $0 -p file_prefix -o /path/to/output | [ - h | --help ]
 #
 # Options
-# -p	REQUIRED. A prefix to your sequence files of the form PREFIX_R1.fastq.gz 
-# -o	OPTIONAL. Path to where you want to find your file output (if not specified /hpcfs/users/${USER}/TRhist/prefix is used)
+# -p        REQUIRED. A prefix to your sequence files of the form PREFIX_R1.fastq.gz 
+# -o        OPTIONAL. Path to where you want to find your file output (if not specified /hpcfs/users/${USER}/TRhist/prefix is used)
+# --keep    OPTIONAL. Set this if you want to keep the paired trimmed fastq files.  The default is to add them to the clean up script.
 # -h or --help	Prints this message.  Or if you got one of the options above wrong you'll be reading this too!
 # 
 # 
 # Original: Mark Corbett, 19/01/2018
 # Modified: (Date; Name; Description)
+# 11/01/2023; Mark; Add the --keep option to add all paired fq.gz files to the clean up script. NOTE: this changes the default behaviour.
 #
 "
 }
@@ -38,11 +42,14 @@ echo "# Script for trimming Illumina reads
 ## Set Variables ##
 while [ "$1" != "" ]; do
 	case $1 in
-		-p )			shift
+		-p )		shift
 					outPrefix=$1
 					;;
-		-o )			shift
+		-o )		shift
 					workDir=$1
+					;;
+		--keep )	shift
+					DelFq=false
 					;;
 		-h | --help )		usage
 					exit 0
@@ -87,3 +94,6 @@ LEADING:2 CROP:90 MINLEN:90
 
 # We can't use the unpaired reads for TRhist so just throw them out along with the split files
 echo "rm $workDir/$outPrefix.${seqFile[$SLURM_ARRAY_TASK_ID]}\_[1,2]U.fq.gz" >> $workDir/$outPrefix.TRhist.parallel.CleanUp.sh
+if "$DelFq"; then
+    echo "rm $workDir/$outPrefix.${seqFile[$SLURM_ARRAY_TASK_ID]}\_[1,2]P.fq.gz" >> $workDir/$outPrefix.TRhist.parallel.CleanUp.sh
+fi
