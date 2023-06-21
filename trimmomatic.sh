@@ -2,9 +2,7 @@
 
 #SBATCH -J TrimTheFat
 #SBATCH -o /hpcfs/users/%u/log/trimmomatic.slurm-%j.out
-
-#SBATCH -A robinson
-#SBATCH -p batch
+#SBATCH -p skylake,icelake,skylakehm,v100cpu
 #SBATCH -N 1
 #SBATCH -n 4
 #SBATCH --time=01:00:00
@@ -15,6 +13,7 @@
 #SBATCH --mail-type=FAIL                                        
 #SBATCH --mail-user=%u@adelaide.edu.au
 
+TrimmomaticProg="/hpcfs/groups/phoenix-hpc-neurogenetics/executables/Trimmomatic-0.39/trimmomatic-0.39.jar"
 DelFq=true # Adds all files to the clean up script for later removal
 
 usage()
@@ -78,16 +77,16 @@ fi
 readarray -t seqFile < $workDir/$outPrefix.xlist.txt
 
 # load modules
-module load arch/haswell
-module load Java/1.8.0_121
-module load Trimmomatic/0.36-Java-1.8.0_121
+module purge
+module use /apps/skl/modules/all
+module load Java/1.8.0_191
 
 ## Start of the script ##
 cd $workDir
 
 # Make sure all reads are the same length or TRhist gets up tight about it. 
 # 90 bases gives patterns of length 1,2,3,5,6 and all factors of these, integer numbers of repeats
-java -Xmx16g -jar $EBROOTTRIMMOMATIC/trimmomatic-0.36.jar PE -threads 4 \
+java -Xmx16g -jar $TrimmomaticProg PE -threads 4 \
 $workDir/read1/${seqFile[$SLURM_ARRAY_TASKID]} $workDir/read2/${seqFile[$SLURM_ARRAY_TASK_ID]} \
 -baseout $workDir/$outPrefix.${seqFile[$SLURM_ARRAY_TASK_ID]}.fq.gz \
 LEADING:2 CROP:90 MINLEN:90

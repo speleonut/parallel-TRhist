@@ -2,9 +2,7 @@
 
 #SBATCH -J tableTRhist
 #SBATCH -o /hpcfs/users/%u/log/collateTRhist.slurm-%j.out
-
-#SBATCH -A robinson
-#SBATCH -p batch
+#SBATCH -p skylake,icelake,skylakehm,v100cpu
 #SBATCH -N 1
 #SBATCH -n 2
 #SBATCH --time=01:00:00
@@ -70,8 +68,9 @@ if [ ! -d "$workDir" ]; then
 fi
 
 # load modules
-module load arch/haswell
-module load Python/3.7.0-foss-2016b
+module purge
+module use /apps/skl/modules/all
+module load Python/3.7.0
 
 ## Start of the script ##
 cd $workDir

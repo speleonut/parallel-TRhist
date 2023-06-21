@@ -2,9 +2,7 @@
 
 #SBATCH -J IlikeRepetitiveKmers
 #SBATCH -o /hpcfs/users/%u/log/trhist.slurm-%j.out
-
-#SBATCH -A robinson
-#SBATCH -p batch
+#SBATCH -p skylake,icelake,skylakehm,v100cpu
 #SBATCH -N 1
 #SBATCH -n 2
 #SBATCH --time=02:30:00
@@ -71,8 +69,9 @@ fi
 readarray -t seqFile < $workDir/$outPrefix.xlist.txt
 
 # load modules
-module load arch/haswell
-module load Java/1.8.0_121
+module purge
+module use /apps/skl/modules/all
+module load Java/1.8.0_191
 
 ## Start of the script ##
 cd $workDir
