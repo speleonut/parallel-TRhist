@@ -2,7 +2,7 @@
 
 #SBATCH -J TrimTheFat
 #SBATCH -o /hpcfs/users/%u/log/trimmomatic.slurm-%j.out
-#SBATCH -p skylake,icelake,skylakehm,v100cpu
+#SBATCH -p skylake,icelake,a100cpu
 #SBATCH -N 1
 #SBATCH -n 4
 #SBATCH --time=01:00:00
