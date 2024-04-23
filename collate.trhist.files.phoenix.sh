@@ -2,7 +2,7 @@
 
 #SBATCH -J tableTRhist
 #SBATCH -o /hpcfs/users/%u/log/collateTRhist.slurm-%j.out
-#SBATCH -p skylake,icelake,a100cpu
+#SBATCH -p icelake,a100cpu
 #SBATCH -N 1
 #SBATCH -n 2
 #SBATCH --time=01:00:00
